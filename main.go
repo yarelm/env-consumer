@@ -82,7 +82,7 @@ func consumePaymentEvents(ctx context.Context, paymentSubscription *pubsub.Subsc
 	err := paymentSubscription.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		log.Printf("Got message: %s", m.Data)
 
-		_, err := db.ExecContext(ctx, "INSERT INTO payment_events VALUES (?)", m.ID)
+		_, err := db.ExecContext(ctx, "INSERT INTO payment_events (id) VALUES ($1)", m.ID)
 		if err != nil {
 			log.Fatal(err)
 		}
